@@ -1,6 +1,6 @@
 const base64url = source => {
   // Encode in classical base64
-  encodedSource = CryptoJS.enc.Base64.stringify(source);
+  let encodedSource = CryptoJS.enc.Base64.stringify(source);
 
   // Remove padding equal characters
   encodedSource = encodedSource.replace(/=+$/, '');
