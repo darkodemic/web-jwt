@@ -41,4 +41,4 @@ const token = createJwt({
   }
 });
 
-export createJwt(); 
+export default createJwt;
