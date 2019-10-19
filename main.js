@@ -1,8 +1,10 @@
-import CryptoJS from 'crypto-js';
+import CryptoJS from 'crypto-js/core';
+import Base64 from 'crypto-js/enc-base64';
+import Utf8 from 'crypto-js/enc-utf8';
 
 const base64url = source => {
   // Encode in classical base64
-  let encodedSource = CryptoJS.enc.Base64.stringify(source);
+  let encodedSource = Base64.stringify(source);
 
   // Remove padding equal characters
   encodedSource = encodedSource.replace(/=+$/, '');
@@ -15,10 +17,10 @@ const base64url = source => {
 };
 
 const createJwt = ({ header, claims, secret }) => {
-  const stringifiedHeader = CryptoJS.enc.Utf8.parse(JSON.stringify(header));
+  const stringifiedHeader = Utf8.parse(JSON.stringify(header));
   const encodedHeader = base64url(stringifiedHeader);
 
-  const stringifiedData = CryptoJS.enc.Utf8.parse(JSON.stringify(claims));
+  const stringifiedData = Utf8.parse(JSON.stringify(claims));
   const encodedData = base64url(stringifiedData);
 
   const signature = `${encodedHeader}.${encodedData}`;
@@ -27,21 +29,5 @@ const createJwt = ({ header, claims, secret }) => {
 
   return `${encodedHeader}.${encodedData}.${finalSignature}`;
 };
-
-// Example usage
-const token = createJwt({
-  header: {
-    alg: 'HS256',
-    typ: 'JWT'
-  },
-  claims: {
-    id: 42,
-    name: 'Darko'
-  },
-  secret: {
-    value: 'secret-key-string',
-    base64encoded: true
-  }
-});
 
 export default createJwt;
