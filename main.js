@@ -1,3 +1,5 @@
+import CryptoJS from 'crypto-js';
+
 const base64url = source => {
   // Encode in classical base64
   let encodedSource = CryptoJS.enc.Base64.stringify(source);
@@ -26,6 +28,7 @@ const createJwt = ({ header, claims, secret }) => {
   return `${encodedHeader}.${encodedData}.${finalSignature}`;
 };
 
+// Example usage
 const token = createJwt({
   header: {
     alg: 'HS256',
